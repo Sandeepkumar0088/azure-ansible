@@ -1,5 +1,5 @@
 - name: roboshop project setup
-  hosts: all
+  hosts: "{{ component }}"
   become: true
   vars:
     password: !vault |
