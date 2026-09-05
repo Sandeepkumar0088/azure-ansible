@@ -13,6 +13,9 @@
     path: /usr/share/nginx/html
     state: directory
 
+- name: Enable nginx network connections
+  ansible.builtin.command: setsebool -P httpd_can_network_connect 1
+
 - name: download nd extract the content
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
