@@ -9,8 +9,11 @@
     name: mysqld
     enabled: true
 
-- name: install requirements
-  ansible.builtin.shell: sudo ansible-galaxy collection install -r requirements.yml
+- name: Install community.mysql
+  ansible.builtin.shell: ansible-galaxy collection install community.mysql
+
+#- name: install requirements
+#  ansible.builtin.shell: sudo ansible-galaxy collection install -r requirements.yml
 
 - name: Create remote root user
   ansible.builtin.shell: |
