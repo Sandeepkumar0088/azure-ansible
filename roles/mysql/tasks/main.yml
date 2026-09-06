@@ -1,13 +1,25 @@
-#- name: Install MySQL Server
-#  ansible.builtin.dnf:
-#    name: mysql-server
-#    state: present
-#
-#- name: Start MySQl Server service
-#  ansible.builtin.systemd_service:
-#    state: restarted
-#    name: mysqld
-#    enabled: true
+- name: Install MySQL Server
+  ansible.builtin.dnf:
+    name: mysql-server
+    state: present
+
+- name: Start MySQl Server service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: mysqld
+    enabled: true
+
+- name: Create remote root user
+  community.mysql.mysql_user:
+    name: root
+    host: "%"
+    password: "RoboShop@1"
+    priv: "*.*:ALL,GRANT"
+    state: present
+    login_user: root
+    login_password: "RoboShop@1"
+
+
 ##
 ##- name: Setup MySQL Root Password
 ##  ansible.builtin.shell: mysql_secure_installation --set-root-pass RoboShop@1
@@ -17,41 +29,41 @@
 #
 #- name: Setup MySQL Root Password
 #  ansible.builtin.shell: mysql -uroot -p'RoboShop@1' -e "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'RoboShop@1'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-- name: Install MySQL
-  ansible.builtin.dnf:
-    name:
-      - mysql-server
-      - python3-PyMySQL
-    state: present
-
-- name: Start MySQL
-  ansible.builtin.systemd:
-    name: mysqld
-    state: started
-    enabled: true
-
-- name: Get temporary MySQL root password
-  ansible.builtin.shell: |
-    grep 'temporary password' /var/log/mysqld.log | tail -1 | awk '{print $NF}'
-  register: mysql_temp_password
-  changed_when: false
-
-- name: Set MySQL root password
-  ansible.builtin.shell: |
-    mysql --connect-expired-password \
-    -uroot \
-    -p'{{ mysql_temp_password.stdout }}' \
-    -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';"
-  no_log: true
-
-- name: Create remote root account
-  ansible.mysql.mysql_user:
-    name: root
-    host: "%"
-    password: "RoboShop@1"
-    priv: "*.*:ALL,GRANT"
-    state: present
-    login_user: root
-    login_password: "RoboShop@1"
-    login_unix_socket: /var/lib/mysql/mysql.sock
-  no_log: true
+#- name: Install MySQL
+#  ansible.builtin.dnf:
+#    name:
+#      - mysql-server
+#      - python3-PyMySQL
+#    state: present
+#
+#- name: Start MySQL
+#  ansible.builtin.systemd:
+#    name: mysqld
+#    state: started
+#    enabled: true
+#
+#- name: Get temporary MySQL root password
+#  ansible.builtin.shell: |
+#    grep 'temporary password' /var/log/mysqld.log | tail -1 | awk '{print $NF}'
+#  register: mysql_temp_password
+#  changed_when: false
+#
+#- name: Set MySQL root password
+#  ansible.builtin.shell: |
+#    mysql --connect-expired-password \
+#    -uroot \
+#    -p'{{ mysql_temp_password.stdout }}' \
+#    -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';"
+#  no_log: true
+#
+#- name: Create remote root account
+#  ansible.mysql.mysql_user:
+#    name: root
+#    host: "%"
+#    password: "RoboShop@1"
+#    priv: "*.*:ALL,GRANT"
+#    state: present
+#    login_user: root
+#    login_password: "RoboShop@1"
+#    login_unix_socket: /var/lib/mysql/mysql.sock
+#  no_log: true
