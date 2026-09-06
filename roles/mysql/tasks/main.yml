@@ -9,16 +9,33 @@
     name: mysqld
     enabled: true
 
-- name: Create remote root user
-  community.mysql.mysql_user:
-    name: root
-    host: "%"
-    password: "RoboShop@1"
-    priv: "*.*:ALL,GRANT"
-    state: present
-    login_user: root
-    login_password: "RoboShop@1"
 
+- name: Create remote root user
+  ansible.builtin.shell: |
+    mysql -uroot <<'EOF'
+    CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'RoboShop@1';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    EOF
+
+
+#- name: set mysql root password
+#  ansible.builtin.shell: mysql -uroot
+#
+#- name: set mysql root password
+#  ansible.builtin.shell:  CREATE USER 'root'@'%' IDENTIFIED BY 'RoboShop@1'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;
+
+#- name: Create remote root user
+#  community.mysql.mysql_user:
+#    name: root
+#    host: "%"
+#    password: "RoboShop@1"
+#    priv: "*.*:ALL,GRANT"
+#    state: present
+#    login_user: root
+#    login_password: "RoboShop@1"
+
+#  CREATE USER 'root'@'%' IDENTIFIED BY 'RoboShop@1'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;
 
 ##
 ##- name: Setup MySQL Root Password
