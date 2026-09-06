@@ -10,7 +10,7 @@
     enabled: true
 
 - name: Create remote root user
-  community.mysql.mysql_user:
+  ansible.mysql.mysql_user:
     name: root
     host: "%"
     password: "RoboShop@1"
