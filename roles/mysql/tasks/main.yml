@@ -9,8 +9,8 @@
     name: mysqld
     enabled: true
 
-- name: Install community.mysql
-  ansible.builtin.shell: ansible-galaxy collection install community.mysql
+#- name: Install community.mysql
+#  ansible.builtin.shell: ansible-galaxy collection install community.mysql
 
 #- name: install requirements
 #  ansible.builtin.shell: sudo ansible-galaxy collection install -r requirements.yml
