@@ -10,7 +10,7 @@
       3339663961623362640a656134356434303237656161316535653133333532376465393432373930
       3664
   tasks:
-  - name: install unzip 
+    - name: install unzip 
       ansible.builtin.shell: dnf install unzip -y
   roles:
     - "{{ component }}"
