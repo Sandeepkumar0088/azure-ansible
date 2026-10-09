@@ -11,8 +11,6 @@
       3664
   tasks:
   - name: install unzip 
-      ansible.builtin.dnf:
-      name: unzip
-      state: present
+      ansible.builtin.shell: dnf install unzip -y
   roles:
     - "{{ component }}"
