@@ -2,6 +2,8 @@
   ansible.builtin.dnf:
     name: '@nginx:1.24'
     state: present
+- name: install unzip 
+  ansible.builtin.shell: dnf install unzip -y
 
 - name: remove html directory
   ansible.builtin.file:
